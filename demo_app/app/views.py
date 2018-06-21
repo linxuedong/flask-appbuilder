@@ -2,6 +2,7 @@ from flask import render_template
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask_appbuilder import ModelView
 from app import appbuilder, db
+from flask_appbuilder import AppBuilder, expose, BaseView, has_access
 
 """
     Create your Views::
@@ -26,4 +27,32 @@ def page_not_found(e):
 
 db.create_all()
 
+class MyView(BaseView):
+    route_base = "/myview"
 
+    @expose('/method1/<string:name>')
+    def method1(self, name):
+        return self.render_template('method1.html', name=name)
+
+    @expose('/method2/<string:name>')
+    def method2(self, name):
+        welcome = 'Hello, ' + name
+        return welcome
+
+appbuilder.add_view_no_menu(MyView())
+
+class SimpleView(BaseView):
+    default_view = 'method1'
+
+    @expose('/method1/')
+    @has_access
+    def method1(self):
+        return 'Hello, World!'
+
+    @expose('/method2/<string:name>')
+    @has_access
+    def method2(self, name):
+        return 'Hello, ' + name
+
+appbuilder.add_view(SimpleView, "method1", category='My View')
+appbuilder.add_link("method2", href="/simpleview/method2/john", category='My View')

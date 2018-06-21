@@ -20,3 +20,14 @@ fabmanager create-admin
 ```
 fabmanager run
 ```
+
+## Base View
+### Base View
+http://localhost:8080/myview/method1/john
+
+http://localhost:8080/myview/method2/john
+
+http://localhost:8080/simpleview/method1/
+
+http://localhost:8080/simpleview/method2/john
+
