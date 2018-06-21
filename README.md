@@ -31,3 +31,5 @@ http://localhost:8080/simpleview/method1/
 
 http://localhost:8080/simpleview/method2/john
 
+### Form View
+http://127.0.0.1:8080/myformview/form

@@ -1,8 +1,10 @@
-from flask import render_template
+from flask import render_template, flash
 from flask_appbuilder.models.sqla.interface import SQLAInterface
-from flask_appbuilder import ModelView
+from flask_appbuilder import ModelView, SimpleFormView
 from app import appbuilder, db
 from flask_appbuilder import AppBuilder, expose, BaseView, has_access
+from . import forms
+from flask_babel import lazy_gettext as _
 
 """
     Create your Views::
@@ -56,3 +58,18 @@ class SimpleView(BaseView):
 
 appbuilder.add_view(SimpleView, "method1", category='My View')
 appbuilder.add_link("method2", href="/simpleview/method2/john", category='My View')
+
+
+class MyFormView(SimpleFormView):
+    form = forms.MyForm
+    form_title = 'This is my first view'
+    message = 'My form submitted'
+
+    def form_get(self, form):
+        form.field1.data = 'This was prefilled'
+
+    def form_post(self, form):
+        flash(self.message, 'info')
+
+appbuilder.add_view(MyFormView, "My form View", icon="fa-group", label=_('My form View'),
+                     category="My Forms", category_icon="fa-cogs")
