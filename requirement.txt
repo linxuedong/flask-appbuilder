@@ -1,1 +1,2 @@
 flask-appbuilder==1.11.1
+pillow
